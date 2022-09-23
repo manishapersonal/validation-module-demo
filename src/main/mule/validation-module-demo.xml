@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	
+	<flow name="validation-module-demoFlow" doc:id="59aad310-8682-42e0-b9bc-cfa1e93f677f" >
+		<http:listener doc:name="GET: /validateCollection" doc:id="9d11c72f-3188-4d30-8bd4-bb1182c7a5aa" config-ref="HTTP_Listener_config" path="/validateCollection"/>
+		<logger level="INFO" doc:name="ENTRY" doc:id="059ce3dd-a4b0-467f-b34b-a9e8fc112df8" message="ENTRY: #[flow.name]"/>
+		<ee:transform doc:name="Transform Message" doc:id="b40ae19b-080d-406c-94a2-041c91d65431" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+[""]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<validation:is-empty-collection doc:name="Is empty collection" doc:id="b8a33f83-147a-43be-ae1d-a8f0e95efe53" />
+		<set-payload value="complete" doc:name="Set Payload" doc:id="9890b991-b460-4955-87d5-469fcb8cd476" />
+		<logger level="INFO" doc:name="EXIT" doc:id="2dd858ad-768d-4174-969e-d31b14e2f2bd" message="EXIT: #[flow.name]"/>
+	</flow>
+</mule>
